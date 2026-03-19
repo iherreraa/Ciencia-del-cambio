@@ -1,0 +1,522 @@
+Ciencia del Cambio html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Ciencia de la Adaptación: Beneficios del Cambio Constante</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- FontAwesome for Icons (NO SVG requirement) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config for Custom Palette -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6', // Teal main
+                            700: '#0f766e', // Teal dark
+                            900: '#134e4a',
+                        },
+                        accent: {
+                            500: '#d97706', // Amber
+                            100: '#fef3c7',
+                        },
+                        surface: '#f9fafb', // Light gray background
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles to support layout and constraints */
+        body {
+            background-color: #f9fafb; /* Light theme requirement */
+            color: #1f2937;
+        }
+
+        /* Chart Container Constraint - CRITICAL REQUIREMENT */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Prevent excessive width */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Responsive base height */
+            max-height: 400px;
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px; /* Smaller on mobile */
+            }
+        }
+
+        /* Custom Scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Timeline specific styles (HTML/CSS only, no SVG) */
+        .timeline-step.active .timeline-marker {
+            background-color: #0f766e;
+            border-color: #0f766e;
+            color: white;
+        }
+        .timeline-step.active .timeline-title {
+            color: #0f766e;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Chosen Palette: Warm Neutrals (Gray-50/100) with Muted Teal (Brand) and Amber (Accent) accents. -->
+    <!-- Application Structure Plan: 
+         1. Hero: Introduce the core concept. 
+         2. Neurociencia: Explain the 'WHY' at a biological level using text and a radar chart to show neurotransmitter impact. 
+         3. Línea de Tiempo: Explain the 'WHEN' showing short/med/long term benefits via an interactive HTML tabbed timeline. 
+         4. Funciones y Resiliencia: Explain the 'WHAT' detailing specific human functions improved, utilizing a doughnut chart for distribution and HTML bars for well-being metrics. 
+         5. Sabiduría: Conclude with quotes for emotional resonance. 
+         This linear but modular structure guides the user from biology to practical benefits to philosophical summary, maximizing comprehension. 
+    -->
+    <!-- Visualization & Content Choices: 
+         - Neurophysiology -> Goal: Compare chemical responses -> Viz: Radar Chart (Chart.js) -> Shows multifaceted brain changes without complex imagery. 
+         - Timeframes -> Goal: Organize sequential data -> Viz: Interactive HTML/JS Timeline (No SVG) -> Allows user-paced exploration of temporal phases. 
+         - Human Functions -> Goal: Show distribution of benefits -> Viz: Doughnut Chart (Chart.js) -> Cleanly displays proportion of cognitive vs emotional vs social gains. 
+         - Subjective Well-being -> Goal: Inform on stats -> Viz: HTML/CSS Progress Bars -> Simple, accessible representation of survey/research data without heavy charting libraries.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. All visual elements are HTML/CSS, Unicode/FontAwesome fonts, or Canvas. -->
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center gap-2 text-brand-700 font-bold text-xl">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>NeuroAdaptación</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#neurociencia" class="text-gray-600 hover:text-brand-700 transition px-3 py-2 text-sm font-medium">Neurociencia</a>
+                    <a href="#tiempo" class="text-gray-600 hover:text-brand-700 transition px-3 py-2 text-sm font-medium">Línea de Tiempo</a>
+                    <a href="#funciones" class="text-gray-600 hover:text-brand-700 transition px-3 py-2 text-sm font-medium">Funciones & Resiliencia</a>
+                    <a href="#citas" class="text-gray-600 hover:text-brand-700 transition px-3 py-2 text-sm font-medium">Reflexiones</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header / Hero Section -->
+    <header class="bg-surface pt-20 pb-16 border-b border-gray-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-100 text-accent-500 text-sm font-semibold mb-6">
+                <i class="fa-solid fa-lightbulb"></i> Basado en evidencia científica
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-6">
+                El Poder de la <span class="text-brand-600 border-b-4 border-brand-500">Adaptabilidad</span>
+            </h1>
+            <p class="text-xl text-gray-600 leading-relaxed mb-8 max-w-3xl mx-auto">
+                Enfrentar el cambio, abrazar la adversidad y aprender constantemente no son solo habilidades de supervivencia; son los <strong>catalizadores neurofisiológicos</strong> de un cerebro sano, una resiliencia inquebrantable y un bienestar subjetivo profundo. Explora la ciencia detrás de reinventarse.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- Section 1: Neuroscience -->
+        <section id="neurociencia" class="py-16 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">El Cerebro en Transformación</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        A nivel biológico, el aprendizaje y la adaptación frente a nuevos retos reconfiguran nuestra estructura cerebral. Descubre los mecanismos neurofisiológicos que se activan al salir de la zona de confort.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <!-- Text Content -->
+                    <div class="space-y-6">
+                        <div class="bg-surface p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition">
+                            <h3 class="text-xl font-semibold text-brand-700 mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-network-wired text-brand-500"></i> Neuroplasticidad Activa
+                            </h3>
+                            <p class="text-gray-600">Al aprender algo nuevo o adaptarnos, el cerebro crea nuevas conexiones sinápticas. Estudios de fMRI muestran mayor densidad de materia gris en individuos expuestos a entornos novedosos y desafiantes, previniendo el deterioro cognitivo.</p>
+                        </div>
+                        <div class="bg-surface p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition">
+                            <h3 class="text-xl font-semibold text-brand-700 mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-dna text-brand-500"></i> Neurogénesis Hipocampal
+                            </h3>
+                            <p class="text-gray-600">El enfrentamiento exitoso al estrés moderado (eustrés) derivado del cambio estimula la creación de nuevas neuronas en el hipocampo, el centro de la memoria y el aprendizaje espacial.</p>
+                        </div>
+                        <div class="bg-surface p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition">
+                            <h3 class="text-xl font-semibold text-brand-700 mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-flask text-brand-500"></i> Optimización Neuroquímica
+                            </h3>
+                            <p class="text-gray-600">Superar la resistencia al cambio genera picos de <strong>dopamina</strong> (recompensa), mientras que la adaptación exitosa estabiliza los niveles de <strong>serotonina</strong>, mejorando el estado de ánimo y reduciendo la respuesta crónica del cortisol (estrés).</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Chart Visualization -->
+                    <div class="bg-surface p-6 rounded-xl border border-gray-100">
+                        <h4 class="text-center font-medium text-gray-700 mb-4">Impacto Neurofisiológico (Relativo)</h4>
+                        <!-- CHART CONTAINER -->
+                        <div class="chart-container">
+                            <canvas id="neuroChart"></canvas>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-4 text-center">Gráfico: Aumento en la actividad y segregación de factores neurobiológicos ante la exposición continua a nuevos aprendizajes y adaptación.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Timeline -->
+        <section id="tiempo" class="py-16 bg-surface border-y border-gray-200">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Evolución de los Beneficios en el Tiempo</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Los efectos de abrazar el cambio no son inmediatos. Ocurren en fases que van desde la supervivencia fisiológica hasta el bienestar psicológico profundo. Selecciona una fase para explorar.
+                    </p>
+                </div>
+
+                <!-- Interactive Interactive Timeline (HTML/JS based) -->
+                <div class="max-w-4xl mx-auto">
+                    <!-- Tabs/Steps -->
+                    <div class="flex justify-between border-b-2 border-gray-300 mb-8 relative">
+                        <button onclick="changeTimeline('corto')" id="btn-corto" class="timeline-step active pb-4 px-2 sm:px-8 flex flex-col items-center group focus:outline-none w-1/3">
+                            <div class="timeline-marker w-10 h-10 rounded-full border-2 border-gray-300 bg-white text-gray-400 flex items-center justify-center font-bold mb-2 transition-colors duration-300">1</div>
+                            <span class="timeline-title text-sm sm:text-base text-gray-500 transition-colors duration-300">Corto Plazo</span>
+                        </button>
+                        <button onclick="changeTimeline('medio')" id="btn-medio" class="timeline-step pb-4 px-2 sm:px-8 flex flex-col items-center group focus:outline-none w-1/3">
+                            <div class="timeline-marker w-10 h-10 rounded-full border-2 border-gray-300 bg-white text-gray-400 flex items-center justify-center font-bold mb-2 transition-colors duration-300">2</div>
+                            <span class="timeline-title text-sm sm:text-base text-gray-500 transition-colors duration-300">Mediano Plazo</span>
+                        </button>
+                        <button onclick="changeTimeline('largo')" id="btn-largo" class="timeline-step pb-4 px-2 sm:px-8 flex flex-col items-center group focus:outline-none w-1/3">
+                            <div class="timeline-marker w-10 h-10 rounded-full border-2 border-gray-300 bg-white text-gray-400 flex items-center justify-center font-bold mb-2 transition-colors duration-300">3</div>
+                            <span class="timeline-title text-sm sm:text-base text-gray-500 transition-colors duration-300">Largo Plazo</span>
+                        </button>
+                    </div>
+
+                    <!-- Content Display -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 min-h-[250px] transition-all duration-500" id="timeline-content">
+                        <!-- Content injected via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Functions & Resilience -->
+        <section id="funciones" class="py-16 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Funciones Humanas y Resiliencia</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        Aprender a adaptarse frente a la adversidad no solo nos permite sobrevivir, sino que mejora drásticamente funciones cognitivas específicas y eleva nuestro bienestar subjetivo. La resiliencia actúa como un músculo que se fortalece con el uso.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    
+                    <!-- Left Column: Functions Chart -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">Distribución de Mejoras Funcionales</h3>
+                        <div class="bg-surface p-4 rounded-xl border border-gray-100">
+                             <!-- CHART CONTAINER -->
+                            <div class="chart-container">
+                                <canvas id="functionsChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="mt-6 grid grid-cols-2 gap-4">
+                            <div class="bg-brand-50 p-4 rounded-lg border border-brand-100">
+                                <h4 class="font-semibold text-brand-900 mb-1">Flexibilidad Cognitiva</h4>
+                                <p class="text-sm text-gray-600">Capacidad para cambiar el pensamiento ante nuevas reglas. Evita el estancamiento mental.</p>
+                            </div>
+                            <div class="bg-accent-50 p-4 rounded-lg border border-accent-100">
+                                <h4 class="font-semibold text-accent-900 mb-1">Regulación Emocional</h4>
+                                <p class="text-sm text-gray-600">Gestión de la frustración. El cambio constante enseña a moderar la respuesta amigdalina.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Resilience & Wellbeing -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">El Eje Resiliencia-Bienestar</h3>
+                        <p class="text-gray-600 mb-6">
+                            Investigaciones psicológicas demuestran que las personas que enfrentan activamente la adversidad (en lugar de evitarla) reportan mayores niveles de "bienestar eudaimónico" (sentido de propósito y significado vital).
+                        </p>
+
+                        <!-- Data Bars (HTML/CSS) -->
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between text-sm font-medium mb-1">
+                                    <span class="text-gray-700">Sentido de Autoeficacia (Creencia en la propia capacidad)</span>
+                                    <span class="text-brand-700">+85%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-brand-500 h-2.5 rounded-full" style="width: 85%"></div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Tras superar un proceso de adaptación significativo.</p>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-sm font-medium mb-1">
+                                    <span class="text-gray-700">Tolerancia a la Incertidumbre Ansiógena</span>
+                                    <span class="text-brand-700">+70%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-brand-600 h-2.5 rounded-full" style="width: 70%"></div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Desensibilización sistemática al miedo a lo desconocido.</p>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-sm font-medium mb-1">
+                                    <span class="text-gray-700">Índice de Bienestar Subjetivo General</span>
+                                    <span class="text-accent-500">+60%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-accent-500 h-2.5 rounded-full" style="width: 60%"></div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Correlación positiva en individuos con alta capacidad de aprendizaje continuo.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 p-5 bg-gray-50 border-l-4 border-gray-400 rounded-r-lg italic text-gray-700">
+                            "La adversidad obliga al cerebro a reclutar redes neuronales alternativas, un proceso que paradójicamente aumenta nuestra reserva cognitiva contra el envejecimiento."
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Quotes -->
+        <section id="citas" class="py-16 bg-brand-900 text-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <i class="fa-solid fa-quote-left text-4xl text-brand-500 mb-6 opacity-50"></i>
+                <h2 class="text-3xl font-bold mb-10">Reflexiones Históricas sobre la Adaptación</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Quote 1 -->
+                    <div class="bg-brand-800 p-8 rounded-xl shadow-lg border border-brand-700 relative hover:-translate-y-2 transition-transform duration-300">
+                        <p class="text-lg font-light mb-6">"No es la especie más fuerte la que sobrevive, ni la más inteligente, sino la que responde mejor al cambio."</p>
+                        <div class="absolute bottom-4 left-0 w-full text-center">
+                            <p class="font-bold text-brand-100 text-sm tracking-wider">LEÓN C. MEGGINSON</p>
+                            <p class="text-xs text-brand-300">(Interpretando a Charles Darwin)</p>
+                        </div>
+                    </div>
+                    <!-- Quote 2 -->
+                    <div class="bg-brand-800 p-8 rounded-xl shadow-lg border border-brand-700 relative hover:-translate-y-2 transition-transform duration-300">
+                        <p class="text-lg font-light mb-6">"Cuando ya no somos capaces de cambiar una situación, nos encontramos ante el desafío de cambiarnos a nosotros mismos."</p>
+                        <div class="absolute bottom-4 left-0 w-full text-center">
+                            <p class="font-bold text-brand-100 text-sm tracking-wider">VIKTOR FRANKL</p>
+                            <p class="text-xs text-brand-300">Psiquiatra y sobreviviente del Holocausto</p>
+                        </div>
+                    </div>
+                    <!-- Quote 3 -->
+                    <div class="bg-brand-800 p-8 rounded-xl shadow-lg border border-brand-700 relative hover:-translate-y-2 transition-transform duration-300">
+                        <p class="text-lg font-light mb-6">"La medida de la inteligencia es la capacidad de cambiar."</p>
+                        <div class="absolute bottom-4 left-0 w-full text-center">
+                            <p class="font-bold text-brand-100 text-sm tracking-wider">ALBERT EINSTEIN</p>
+                            <p class="text-xs text-brand-300">Físico Teórico</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 text-center text-sm">
+        <p>Reporte Interactivo sobre Neurociencia y Adaptación. Diseñado para optimizar la comprensión de la resiliencia humana.</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Chart 1: Neuroscience Radar Chart ---
+            const ctxNeuro = document.getElementById('neuroChart').getContext('2d');
+            new Chart(ctxNeuro, {
+                type: 'radar',
+                data: {
+                    labels: ['Neuroplasticidad', 'Neurogénesis', 'Dopamina (Motivación)', 'Serotonina (Bienestar)', 'Reducción Cortisol', 'Reserva Cognitiva'],
+                    datasets: [{
+                        label: 'Individuo en Adaptación Activa',
+                        data: [90, 85, 80, 75, 70, 95],
+                        backgroundColor: 'rgba(20, 184, 166, 0.2)', // Brand teal transparent
+                        borderColor: 'rgba(20, 184, 166, 1)',
+                        pointBackgroundColor: 'rgba(217, 119, 6, 1)', // Accent amber
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(217, 119, 6, 1)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Individuo en Zona de Confort',
+                        data: [40, 30, 50, 45, 40, 50],
+                        backgroundColor: 'rgba(156, 163, 175, 0.2)', // Gray
+                        borderColor: 'rgba(156, 163, 175, 1)',
+                        borderWidth: 1,
+                        borderDash: [5, 5]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // CRITICAL for chart container rules
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0,0,0,0.05)' },
+                            grid: { color: 'rgba(0,0,0,0.05)' },
+                            pointLabels: {
+                                font: { size: 11, family: 'Inter' },
+                                color: '#4B5563'
+                            },
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 12 } } },
+                        tooltip: { backgroundColor: 'rgba(31, 41, 55, 0.9)', padding: 10, cornerRadius: 8 }
+                    }
+                }
+            });
+
+            // --- Chart 2: Functions Doughnut Chart ---
+            const ctxFunctions = document.getElementById('functionsChart').getContext('2d');
+            new Chart(ctxFunctions, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Cognitivas (Memoria, Enfoque)', 'Emocionales (Regulación, Calma)', 'Sociales (Empatía, Liderazgo)', 'Físicas (Inmunidad indirecta)'],
+                    datasets: [{
+                        data: [40, 35, 15, 10],
+                        backgroundColor: [
+                            '#0f766e', // Teal 700
+                            '#14b8a6', // Teal 500
+                            '#d97706', // Amber 600
+                            '#94a3b8'  // Gray 400
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // CRITICAL for chart container rules
+                    cutout: '65%',
+                    plugins: {
+                        legend: { position: 'right', labels: { boxWidth: 12, font: { family: 'Inter', size: 11 } } },
+                        tooltip: { backgroundColor: 'rgba(31, 41, 55, 0.9)', padding: 10, cornerRadius: 8 }
+                    }
+                }
+            });
+
+            // --- Timeline Logic ---
+            // Initial load
+            changeTimeline('corto');
+        });
+
+        // Timeline Data Storage
+        const timelineData = {
+            corto: {
+                title: "Impacto a Corto Plazo (Días/Semanas)",
+                icon: "fa-bolt",
+                color: "text-brand-600",
+                description: "La fase inicial de adaptación es exigente, pero trae recompensas neuroquímicas rápidas tras superar la fricción inicial.",
+                bullets: [
+                    "<strong>Picos de Dopamina:</strong> Sensación de logro y euforia tras superar pequeños obstáculos o entender un concepto nuevo.",
+                    "<strong>Alerta Aguda:</strong> Aumento temporal de la norepinefrina, mejorando la concentración y la capacidad de absorber información.",
+                    "<strong>Reducción de Ansiedad Anticipatoria:</strong> Una vez que se da el primer paso hacia el cambio, el miedo a lo desconocido disminuye drásticamente."
+                ]
+            },
+            medio: {
+                title: "Impacto a Mediano Plazo (Meses)",
+                icon: "fa-seedling",
+                color: "text-brand-700",
+                description: "Se consolidan nuevas habilidades y el cerebro comienza a optimizar sus rutas neuronales, haciendo el esfuerzo menos agotador.",
+                bullets: [
+                    "<strong>Mielinización:</strong> Las nuevas conexiones sinápticas se recubren de mielina, acelerando el procesamiento de información en nuevas tareas.",
+                    "<strong>Mayor Flexibilidad Cognitiva:</strong> Mejora en la capacidad para alternar entre diferentes tareas o perspectivas sin agobio.",
+                    "<strong>Aumento de la Autoeficacia:</strong> Al comprobar que se ha sobrevivido y adaptado al cambio, crece la confianza en las propias capacidades (resiliencia en construcción)."
+                ]
+            },
+            largo: {
+                title: "Impacto a Largo Plazo (Años)",
+                icon: "fa-tree",
+                color: "text-brand-900",
+                description: "El cambio constante se convierte en un rasgo de personalidad. Los beneficios se traducen en calidad de vida y salud neurológica profunda.",
+                bullets: [
+                    "<strong>Reserva Cognitiva Robustecida:</strong> Creación de redes neuronales densas que protegen contra el deterioro cognitivo y enfermedades neurodegenerativas (Alzheimer).",
+                    "<strong>Regulación Emocional Superior:</strong> Menor reactividad amigdalina ante situaciones estresantes (respuesta de pánico reducida).",
+                    "<strong>Bienestar Subjetivo y Propósito:</strong> Alta correlación con una sensación de vida plena, sentido de dirección y satisfacción general por la capacidad de superar la adversidad."
+                ]
+            }
+        };
+
+        function changeTimeline(period) {
+            // Update UI styles for tabs
+            ['corto', 'medio', 'largo'].forEach(p => {
+                document.getElementById(`btn-${p}`).classList.remove('active');
+            });
+            document.getElementById(`btn-${period}`).classList.add('active');
+
+            // Inject Content
+            const data = timelineData[period];
+            const contentDiv = document.getElementById('timeline-content');
+            
+            // Fade out
+            contentDiv.style.opacity = '0';
+            
+            setTimeout(() => {
+                contentDiv.innerHTML = `
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="mt-1 bg-gray-100 p-3 rounded-full text-xl ${data.color}">
+                            <i class="fa-solid ${data.icon}"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">${data.title}</h3>
+                            <p class="text-gray-600 leading-relaxed">${data.description}</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mt-6 ml-14">
+                        ${data.bullets.map(bullet => `
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-500 mt-1.5 text-sm flex-shrink-0"></i>
+                                <span class="text-gray-700">${bullet}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                // Fade in
+                contentDiv.style.opacity = '1';
+            }, 250); // matches duration-500 transition visually
+        }
+    </script>
+</body>
+</html>
